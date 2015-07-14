@@ -1,12 +1,12 @@
 server {
     listen 80;
-    root /srv/silex-twitter-clone/src/;
+    root /srv/silex-twitter-clone/web/;
 
     # site definition
     location @site {
         fastcgi_pass   unix:/var/run/php5-fpm.sock;
         include fastcgi_params;
-        fastcgi_param  SCRIPT_FILENAME $document_root/app.php;
+        fastcgi_param  SCRIPT_FILENAME $document_root/index.php;
     }
 
     # disallowing direct php file access

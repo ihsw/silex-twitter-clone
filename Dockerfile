@@ -14,7 +14,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 # installing the app
 RUN mkdir $INSTALL_DIR
 COPY $APP_DIR/composer.json $INSTALL_DIR/composer.json
-COPY $APP_DIR/src $INSTALL_DIR/src
+COPY $APP_DIR/web $INSTALL_DIR/web
 RUN cd $INSTALL_DIR && composer install
 
 # nginx setup
