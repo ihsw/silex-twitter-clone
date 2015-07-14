@@ -1,6 +1,6 @@
 server {
     listen 80;
-    root /opt/silex-twitter-clone/;
+    root /srv/silex-twitter-clone/src/;
 
     # site root is redirected to the app boot script
     location = / {
@@ -20,6 +20,6 @@ server {
     location @site {
         fastcgi_pass   unix:/var/run/php5-fpm.sock;
         include fastcgi_params;
-        fastcgi_param  SCRIPT_FILENAME $document_root/index.php;
+        fastcgi_param  SCRIPT_FILENAME $document_root/app.php;
     }
 }
