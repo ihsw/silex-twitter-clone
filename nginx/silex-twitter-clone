@@ -2,24 +2,25 @@ server {
     listen 80;
     root /srv/silex-twitter-clone/src/;
 
-    # site root is redirected to the app boot script
-    location = / {
-        try_files @site @site;
-    }
-
-    # all other locations try other files first and go to our front controller if none of them exists
-    location / {
-        try_files $uri $uri/ @site;
-    }
-
-    # return 404 for all php files as we do have a front controller
-    location ~ \.php$ {
-        return 404;
-    }
-
+    # site definition
     location @site {
         fastcgi_pass   unix:/var/run/php5-fpm.sock;
         include fastcgi_params;
         fastcgi_param  SCRIPT_FILENAME $document_root/app.php;
+    }
+
+    # disallowing direct php file access
+    location ~ \.php$ {
+        return 403;
+    }
+
+    # site root (exact match)
+    location = / {
+        try_files @site @site;
+    }
+
+    # everything else (exact filename/folder match, falling back to the app)
+    location / {
+        try_files $uri $uri/ @site;
     }
 }
