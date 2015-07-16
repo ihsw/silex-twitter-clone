@@ -38,7 +38,7 @@ $app["security.firewalls"] = [
                 "5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg=="
             ],
         ]
-    ],
+    ]
 ];
 
 // route setup
