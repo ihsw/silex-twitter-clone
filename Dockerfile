@@ -1,6 +1,10 @@
 FROM ubuntu:14.04
 
-RUN apt-get update && apt-get install -yq curl php5-cli php5-fpm nginx supervisor
+# mysql setup
+RUN echo "mysql-server mysql-server/root_password password password" | debconf-set-selections
+RUN echo "mysql-server mysql-server/root_password_again password password" | debconf-set-selections
+
+RUN apt-get update && apt-get install -yq curl php5-cli php5-fpm nginx supervisor mysql-server
 
 EXPOSE 80
 
