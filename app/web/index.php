@@ -12,11 +12,10 @@ use Silex\Provider\SecurityServiceProvider,
 
 // starting it up
 $app = new Application();
-$app["debug"] = true;
+$app["pdo"] = new \PDO("mysql:host=localhost;dbname=silex_twitter_clone", "root", "");
 
 // service setup
 $twigCache = "../cache";
-$twigCache = false;
 $app->register(new SecurityServiceProvider())
     ->register(new SessionServiceProvider())
     ->register(new TwigServiceProvider(), ["twig.path" => "../templates", "twig.options" => ["cache" => $twigCache]])
@@ -45,9 +44,14 @@ $app["security.firewalls"] = [
 // route setup
 $app->get("/", function (Application $app) {
     return $app["twig"]->render("home.html.twig", [
-        "username" => $app["security.token_storage"]->getToken()->getUser()->getUsername()
+        "username" => $app["security.token_storage"]->getToken()->getUser()->getUsername(),
+        "posts" => $app->getPosts()
     ]);
-});
+})->bind("home");
+$app->post("/", function (Application $app, Request $request) {
+    $app->createPost($request->get("content"));
+    return new RedirectResponse($app["url_generator"]->generate("home"));
+})->bind("create");
 $app->get("/login", function (Application $app, Request $request) {
     return $app["twig"]->render("login.html.twig", [
         "error" => $app["security.last_error"]($request),
