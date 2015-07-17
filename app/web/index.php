@@ -25,7 +25,8 @@ $app->register(new SecurityServiceProvider())
 // firewall definitions
 $app["security.firewalls"] = [
     "login" => [
-        "pattern" => "^/login$"
+        "pattern" => "^/login$",
+        "anonymous" => true
     ],
     "secured" => [
         "pattern" => "^.*$",
@@ -43,14 +44,16 @@ $app["security.firewalls"] = [
 
 // route setup
 $app->get("/", function (Application $app) {
-    return sprintf("Hello, %s!", $app["security.token_storage"]->getToken()->getUser()->getUsername());
+    return $app["twig"]->render("home.html.twig", [
+        "username" => $app["security.token_storage"]->getToken()->getUser()->getUsername()
+    ]);
 });
 $app->get("/login", function (Application $app, Request $request) {
     return $app["twig"]->render("login.html.twig", [
         "error" => $app["security.last_error"]($request),
         "last_username" => $app["session"]->get("_security.last_username"),
     ]);
-});
+})->bind("login");
 
 // running it out
 $app->run();

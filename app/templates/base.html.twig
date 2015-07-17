@@ -1,0 +1,13 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Silex Twitter Clone</title>
+    </head>
+    <body>
+        <h1>Silex Twitter Clone</h1>
+        {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+            <a href="{{ path("logout") }}">Logout</a>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
