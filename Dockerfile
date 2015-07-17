@@ -26,7 +26,7 @@ RUN chmod 744 $INSTALL_DIR/cache
 # initializing the database
 ENV SCHEMA_PATH /tmp/schema.sql
 COPY $APP_DIR/sql/schema.sql $SCHEMA_PATH
-RUN /bin/bash -c "mysqld_safe &" && sleep 5 && mysql -uroot < $SCHEMA_PATH
+RUN bash -c "mysqld_safe &" && sleep 5 && mysql -uroot < $SCHEMA_PATH
 
 ### SUPPORTIVE SERVICES ###
 ENV FILES_DIR ./container/files
