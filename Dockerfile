@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -yq curl php5-cli php5-fpm nginx supervisor mysql-server
+RUN apt-get update && apt-get install -yq curl php5-cli php5-fpm nginx supervisor mysql-server php5-mysql
 
 EXPOSE 80
 
