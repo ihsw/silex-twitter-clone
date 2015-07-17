@@ -15,10 +15,9 @@ $app = new Application();
 $app["pdo"] = new \PDO("mysql:host=localhost;dbname=silex_twitter_clone", "root", "");
 
 // service setup
-$twigCache = "../cache";
 $app->register(new SecurityServiceProvider())
     ->register(new SessionServiceProvider())
-    ->register(new TwigServiceProvider(), ["twig.path" => "../templates", "twig.options" => ["cache" => $twigCache]])
+    ->register(new TwigServiceProvider(), ["twig.path" => "../templates", "twig.options" => ["cache" => "../cache"]])
     ->register(new UrlGeneratorServiceProvider());
 
 // firewall definitions
