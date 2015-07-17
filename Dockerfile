@@ -25,14 +25,11 @@ RUN chmod 744 $INSTALL_DIR/cache
 ### SUPPORTIVE SERVICES ###
 ENV FILES_DIR ./container/files
 
+# supervisor setup
+COPY $FILES_DIR/etc/supervisor/conf.d /etc/supervisor/conf.d
+
 # nginx setup
 RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
-COPY $FILES_DIR/etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
-
-# php-fpm setup
-COPY $FILES_DIR/etc/supervisor/conf.d/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
-
-# installing the nginx site
 ENV SITE_DEST /etc/nginx/sites-available/silex-twitter-clone
 COPY $FILES_DIR/$SITE_DEST $SITE_DEST
 RUN ln -s $SITE_DEST /etc/nginx/sites-enabled/silex-twitter-clone
