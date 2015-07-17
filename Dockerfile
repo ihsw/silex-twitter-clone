@@ -1,9 +1,6 @@
 FROM ubuntu:14.04
 
-# mysql setup
-RUN echo "mysql-server mysql-server/root_password password password" | debconf-set-selections
-RUN echo "mysql-server mysql-server/root_password_again password password" | debconf-set-selections
-
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -yq curl php5-cli php5-fpm nginx supervisor mysql-server
 
 EXPOSE 80
@@ -25,6 +22,11 @@ COPY $APP_DIR/templates $INSTALL_DIR/templates
 RUN mkdir $INSTALL_DIR/cache
 RUN chown www-data:www-data $INSTALL_DIR/cache
 RUN chmod 744 $INSTALL_DIR/cache
+
+# initializing the database
+ENV SCHEMA_PATH /tmp/schema.sql
+COPY $APP_DIR/sql/schema.sql $SCHEMA_PATH
+RUN /bin/bash -c "mysqld_safe &" && sleep 5 && mysql -uroot < $SCHEMA_PATH
 
 ### SUPPORTIVE SERVICES ###
 ENV FILES_DIR ./container/files
